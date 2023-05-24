@@ -22,54 +22,15 @@ export class ProductManager {
     const products = await this.getProducts();
     return products.find(product => product.id === id);
   }
- // Actualizamos un producto en especifico buscando con su id y los parametros a actualizar
-/*  updateProduct = async (id, update) => {
-  // Leer el contenido del archivo
+
+
+updateProduct = async (index, updatedProduct) => {
   const products = await this.getProducts();
-
-  // Buscar el índice del producto con el id especificado
-  const index = products.findIndex((prod) => prod.id === id);
-
-  // Si el producto existe, actualizarlo
-  if (index !== -1) {
-
-    // Validar el objeto de actualización
-    const isValid = await this.#validateProduct(update);
-    if (!isValid) {
-      return console.log(
-        "Error al actualizar: actualización inválida"
-      );
-    }
-
-    // Crear un nuevo objeto producto actualizado
-    products[index] = { ...products[index], ...update };
-
-    // Escribir el array de productos actualizado al archivo
-    await fs.promises.writeFile(
-      this.#path,
-      JSON.stringify(products, null, "\t"),
-      this.#format
-    );
-
-    // Actualizar el array de productos en la instancia de ProductManager
-    this.products = products;
-
-    // Devolver el producto actualizado
-    return console.log("Producto Actualizado", products[index]);
-  }
-
-  // Si el producto no existe, devolvemos un mensaje
-  return console.log("Error al actualizar: Producto no encontrado");
-}; */
-
-
-
-  /* corregir con spread operation */
-  updateProduct = async (index, updatedProduct) => {
-    let products = await this.getProducts();
-    products[index] = { ...products[index], ...updatedProduct };
-    await fs.promises.writeFile(this.filePath, JSON.stringify(products, null, '\t'));
-  };
+  const product = products.find((item) => item.id === index);
+  const productIndex = products.findIndex((item) => item.id === index);
+  products[productIndex] = { ...products[productIndex], ...updatedProduct };
+  await fs.promises.writeFile(this.filePath, JSON.stringify(products, null, '\t'));
+};
 
   deleteProduct = async (index) => {
     let products = await this.getProducts()
